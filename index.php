@@ -5,6 +5,14 @@ require_once 'products.php';
 $page = $_GET['page'] ?? 'dashboard';
 $action = $_GET['action'] ?? 'index';
 
+// Check if there are any products in the database
+$product_count = db_select_one("SELECT COUNT(*) as count FROM products")['count'];
+
+if ($product_count == 0) {
+    // If no products exist, add sample products
+    add_sample_products();
+}
+
 switch ($page) {
     case 'dashboard':
         $total_revenue = get_total_revenue();

@@ -2,17 +2,21 @@
 require_once 'config.php';
 
 function db_connect() {
-    global $db_host, $db_port, $db_name, $db_user, $db_password;
+    $databaseUrl = 'sqlite:' . __DIR__ . '/db.sqlite';
+    $pdo = new PDO($databaseUrl);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $dsn = "pgsql:host=$db_host;port=$db_port;dbname=$db_name;user=$db_user;password=$db_password";
+    // Create tables if they don't exist
+    $pdo->exec("CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        status TEXT NOT NULL,
+        price REAL NOT NULL,
+        total_sales INTEGER DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
     
-    try {
-        $pdo = new PDO($dsn);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $pdo;
-    } catch (PDOException $e) {
-        die("Connection failed: " . $e->getMessage());
-    }
+    return $pdo;
 }
 
 function db_query($query, $params = []) {

@@ -49,7 +49,20 @@ function get_total_sales() {
 }
 
 function get_active_users_count() {
-    // Assuming we have a users table
-    $result = db_select_one("SELECT COUNT(*) as count FROM users WHERE status = 'Active'");
-    return $result['count'] ?? 0;
+    // Placeholder: Return a static number for now
+    return 100;
+}
+
+function add_sample_products() {
+    $sample_products = [
+        ['name' => 'Laptop Pro', 'status' => 'Active', 'price' => 1299.99, 'total_sales' => 50],
+        ['name' => 'Smartphone X', 'status' => 'Active', 'price' => 799.99, 'total_sales' => 100],
+        ['name' => 'Wireless Earbuds', 'status' => 'Active', 'price' => 129.99, 'total_sales' => 200],
+        ['name' => 'Smart Watch', 'status' => 'Active', 'price' => 249.99, 'total_sales' => 75],
+        ['name' => 'Gaming Console', 'status' => 'Draft', 'price' => 499.99, 'total_sales' => 0],
+    ];
+
+    foreach ($sample_products as $product) {
+        create_product($product);
+    }
 }

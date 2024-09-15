@@ -23,6 +23,10 @@ args = "PHP Server"
 task = "workflow.run"
 args = "Flask Server"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "PHP Executable Finder"
+
 [[workflows.workflow]]
 name = "Start PHP Server"
 author = "agent"
@@ -32,7 +36,7 @@ agentRequireRestartOnSave = false
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "php -S 0.0.0.0:8000"
+args = "/nix/store/ppkjv7h6x32j3bl7793a75lanramizbn-php-with-extensions-8.3.8/bin/php -S 0.0.0.0:8000"
 waitForPort = 8000
 
 [[workflows.workflow]]
@@ -44,7 +48,7 @@ agentRequireRestartOnSave = false
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "php -S 0.0.0.0:8000"
+args = "/usr/bin/php -S 0.0.0.0:8000"
 waitForPort = 8000
 
 [[workflows.workflow]]
@@ -56,11 +60,22 @@ agentRequireRestartOnSave = false
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python app.py"
+args = "python3 app.py"
 waitForPort = 8000
 
+[[workflows.workflow]]
+name = "PHP Executable Finder"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "which php"
+
 [deployment]
-run = ["sh", "-c", "php -S 0.0.0.0:8000"]
+run = ["sh", "-c", "/usr/bin/php -S 0.0.0.0:8000"]
 
 [[ports]]
 localPort = 8000
