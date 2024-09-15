@@ -56,8 +56,12 @@ agentRequireRestartOnSave = false
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python3 /home/runner/CodeMirrorProject/app.py"
+args = "python app.py"
 waitForPort = 8000
 
 [deployment]
 run = ["sh", "-c", "php -S 0.0.0.0:8000"]
+
+[[ports]]
+localPort = 8000
+externalPort = 80
